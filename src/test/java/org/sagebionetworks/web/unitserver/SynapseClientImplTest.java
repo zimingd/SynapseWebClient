@@ -214,7 +214,7 @@ public class SynapseClientImplTest {
 	@Mock 
 	HttpServletRequest mockRequest;
 	
-	String userIp = "127.0.0.1";
+	String userIp;
 
 	@Before
 	public void before() throws SynapseException, JSONObjectAdapterException {

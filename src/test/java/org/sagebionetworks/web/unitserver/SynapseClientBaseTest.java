@@ -41,8 +41,9 @@ public class SynapseClientBaseTest {
 	@Mock 
 	HttpServletRequest mockRequest;
 	
-	String userIp = "127.0.0.1";
+	String userIp;
 	
+
 	@Before
 	public void setUp() throws Exception {
 		repositoryServiceUrl = "asdf.com";
