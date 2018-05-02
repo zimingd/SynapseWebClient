@@ -15,6 +15,7 @@ import org.sagebionetworks.repo.model.EntityTypeUtils;
 import org.sagebionetworks.repo.model.search.Hit;
 import org.sagebionetworks.repo.model.search.SearchResults;
 import org.sagebionetworks.repo.model.search.query.KeyValue;
+import org.sagebionetworks.repo.model.search.query.KeyRange;
 import org.sagebionetworks.repo.model.search.query.SearchQuery;
 import org.sagebionetworks.schema.adapter.JSONObjectAdapter;
 import org.sagebionetworks.schema.adapter.JSONObjectAdapterException;
@@ -148,20 +149,24 @@ public class SearchPresenter extends AbstractActivity implements SearchView.Pres
 	}
 
 	@Override
-	public void addTimeFacet(String facetName, String facetValue, String displayValue) {
-		timeValueToDisplay.put(createTimeValueKey(facetName, facetValue), displayValue);
+	public void addTimeFacet(String facetName, String facetMinValue, String facetMaxValue, String displayValue) {
+		timeValueToDisplay.put(createTimeValueKey(facetName, facetMinValue), displayValue); //TODO: ask Jay what this does?
 		// time facets allow a single facet value only.
-		removeFacet(facetName);
-		addFacet(facetName, facetValue);
+		removeLiteralFacet(facetName);
+		addFacet(facetName, facetMinValue);
 	}
 	
 	@Override
-	public void removeFacetAndRefresh(String facetName) {
-		removeFacet(facetName);
+	public void removeTimeFacetAndRefresh(String facetName) {
+		removeLiteralFacet(facetName);
 		executeNewSearch();
 	}
+
+	public void removeTimeFacet(String facetName){
+		List<KeyRange> keyRangeList = currentSearch.getRangeQuery();
+	}
 	
-	public void removeFacet(String facetName) {
+	public void removeLiteralFacet(String facetName) {
 		List<KeyValue> bq = currentSearch.getBooleanQuery();
 		if(bq != null) {
 			List<KeyValue> newBq = new ArrayList<KeyValue>();

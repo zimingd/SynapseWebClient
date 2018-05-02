@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -162,7 +161,7 @@ public class SearchPresenterTest {
 		String facetValue = "1";
 		assertTrue(getFacet(facetName).isEmpty());
 		
-		searchPresenter.addTimeFacet(facetName, facetValue, "Yesterday");
+		searchPresenter.addTimeFacet(facetName, facetValue, null, "Yesterday");
 
 		//When a new facet is added, we should:
 		// 1. Add the facet to the current search.
@@ -182,13 +181,13 @@ public class SearchPresenterTest {
 		
 		//verify setting the time facet to another value clears the previous
 		facetValue = "2";
-		searchPresenter.addTimeFacet(facetName, facetValue, "Yesterday");
+		searchPresenter.addTimeFacet(facetName, facetValue, null, "Yesterday");
 		verify(mockSynapseClient, times(2)).search(any(SearchQuery.class), any(AsyncCallback.class)); // 4
 		facetValues = getFacet(facetName);
 		assertEquals(1, facetValues.size());
 		assertEquals(facetValue, facetValues.get(0).getValue());
 		
-		searchPresenter.removeFacetAndRefresh(facetName);
+		searchPresenter.removeTimeFacetAndRefresh(facetName);
 		verify(mockSynapseClient, times(3)).search(any(SearchQuery.class), any(AsyncCallback.class)); // 4
 		assertTrue(getFacet(facetName).isEmpty());
 	}

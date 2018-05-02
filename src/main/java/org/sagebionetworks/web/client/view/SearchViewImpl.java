@@ -484,14 +484,13 @@ public class SearchViewImpl extends Composite implements SearchView {
 	private Anchor createTimeFacet(final Facet facet, final long startTime, final String title) {
 		Anchor a;
 		a = new Anchor(title);
-		final String facetValue = startTime + "..";
-		a.addClickHandler(new ClickHandler() {			
-			@Override
-			public void onClick(ClickEvent event) {
+		final String facetMinValue = Long.toString(startTime);
+		final String facetMaxValue = null;
+		a.addClickHandler(event -> {
 				Window.scrollTo(0, 0);
-				presenter.addTimeFacet(facet.getName(), facetValue, title);
+				presenter.addTimeFacet(facet.getName(), facetMinValue, facetMaxValue, title);
 			}
-		});
+		);
 		return a;
 	}
 	
@@ -500,7 +499,7 @@ public class SearchViewImpl extends Composite implements SearchView {
 		a = new Anchor(title);
 		a.addClickHandler( event -> {
 			Window.scrollTo(0, 0);
-			presenter.removeFacetAndRefresh(facet.getName());
+			presenter.removeTimeFacetAndRefresh(facet.getName());
 		});
 		return a;
 	}
